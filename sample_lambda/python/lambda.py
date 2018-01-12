@@ -186,6 +186,7 @@ SAMPLE_APPLIANCES = [
     }
 ]
 
+
 def lambda_handler(request, context):
     """Main Lambda handler.
 
@@ -226,6 +227,7 @@ def lambda_handler(request, context):
         logger.error(error)
         raise
 
+
 # v2 handlers
 def handle_discovery():
     header = {
@@ -242,6 +244,7 @@ def handle_discovery():
         "payload": payload
     }
     return response
+
 
 def handle_non_discovery(request):
     request_name = request["header"]["name"]
@@ -269,6 +272,7 @@ def handle_non_discovery(request):
     }
     return response
 
+
 # v2 utility functions
 def get_appliance_by_appliance_id(appliance_id):
     for appliance in SAMPLE_APPLIANCES:
@@ -276,11 +280,14 @@ def get_appliance_by_appliance_id(appliance_id):
             return appliance
     return None
 
+
 def get_utc_timestamp(seconds=None):
     return time.strftime("%Y-%m-%dT%H:%M:%S.00Z", time.gmtime(seconds))
 
+
 def get_uuid():
     return str(uuid.uuid4())
+
 
 # v3 handlers
 def handle_discovery_v3(request):
@@ -302,6 +309,7 @@ def handle_discovery_v3(request):
         }
     }
     return response
+
 
 def handle_non_discovery_v3(request):
     request_namespace = request["directive"]["header"]["namespace"]
@@ -362,6 +370,7 @@ def handle_non_discovery_v3(request):
 
     # other handlers omitted in this example
 
+
 # v3 utility functions
 def get_endpoint_from_v2_appliance(appliance):
     endpoint = {
@@ -377,6 +386,7 @@ def get_endpoint_from_v2_appliance(appliance):
     endpoint["capabilities"] = get_capabilities_from_v2_appliance(appliance)
     return endpoint
 
+
 def get_directive_version(request):
     try:
         return request["directive"]["header"]["payloadVersion"]
@@ -386,11 +396,13 @@ def get_directive_version(request):
         except:
             return "-1"
 
+
 def get_endpoint_by_endpoint_id(endpoint_id):
     appliance = get_appliance_by_appliance_id(endpoint_id)
     if appliance:
         return get_endpoint_from_v2_appliance(appliance)
     return None
+
 
 def get_display_categories_from_v2_appliance(appliance):
     model_name = appliance["modelName"]
@@ -404,6 +416,7 @@ def get_display_categories_from_v2_appliance(appliance):
     elif model_name == "Smart Camera": displayCategories = ["CAMERA"]
     else: displayCategories = ["OTHER"]
     return displayCategories
+
 
 def get_capabilities_from_v2_appliance(appliance):
     model_name = appliance["modelName"]
